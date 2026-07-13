@@ -24,5 +24,11 @@ RUN useradd -m -s /bin/bash agent
 USER agent
 WORKDIR /home/agent/workspace
 
+# Health: no HTTP port (sleep infinity + docker exec), so probe the herdr
+# binary instead. Fails if herdr is missing/broken; Coolify reads container
+# health status from this.
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD herdr --version || exit 1
+
 # Keep the container alive; attach with:  docker exec -it herdr herdr
 CMD ["sleep", "infinity"]
