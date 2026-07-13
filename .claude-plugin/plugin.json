@@ -1,0 +1,10 @@
+{
+  "name": "herdr",
+  "version": "0.1.0",
+  "description": "Cross-session memory for Claude Code: frozen-snapshot inject, capture-everything Stop hook, a curated-writes skill, and hybrid semantic recall (mem0 + ParadeDB/pg_search + TEI) with citations.",
+  "author": { "name": "Jobin Lawrance" },
+  "homepage": "https://herdr.dev",
+  "repository": "https://github.com/jobinlawrance/herdr",
+  "license": "MIT",
+  "keywords": ["memory", "claude-code", "hooks", "skill", "mem0", "recall"]
+}

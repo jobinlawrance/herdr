@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "herdr-memory": {
+      "type": "http",
+      "url": "${HERDR_OPENMEMORY_URL}",
+      "headers": {
+        "Authorization": "Bearer ${HERDR_OPENMEMORY_TOKEN}"
+      }
+    }
+  }
+}
