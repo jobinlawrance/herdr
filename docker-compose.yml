@@ -1,0 +1,24 @@
+services:
+  herdr:
+    build: .
+    container_name: herdr
+    restart: unless-stopped
+    # Interactive: lets `docker exec -it herdr herdr` attach a real TTY
+    tty: true
+    stdin_open: true
+    environment:
+      # OPTIONAL headless auth for Claude Code.
+      # Generate a FRESH token with `claude setup-token` (uses your Max sub —
+      # this is the official, sanctioned path, NOT a spoof) and store it as a
+      # Coolify secret named CLAUDE_CODE_OAUTH_TOKEN. Leave unset to instead
+      # log in interactively once via `claude` -> /login (persists in the volume).
+      CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN:-}
+    volumes:
+      - claude-config:/home/agent/.claude   # auth + settings persist across restarts
+      - herdr-data:/home/agent/.herdr       # herdr session state
+      - workspace:/home/agent/workspace     # your repos / work
+
+volumes:
+  claude-config:
+  herdr-data:
+  workspace:
