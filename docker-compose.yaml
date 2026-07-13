@@ -13,6 +13,13 @@ services:
       # Coolify secret named CLAUDE_CODE_OAUTH_TOKEN. Leave unset to instead
       # log in interactively once via `claude` -> /login (persists in the volume).
       CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN:-}
+      # ccgram Telegram bridge — set these as Coolify secrets.
+      # TELEGRAM_BOT_TOKEN + ALLOWED_USERS are REQUIRED; until they're set the
+      # container crash-loops (restart: unless-stopped). CCGRAM_GROUP_ID is
+      # optional (scopes the bot to one group; prefix the id with -100).
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      ALLOWED_USERS: ${ALLOWED_USERS:-}
+      CCGRAM_GROUP_ID: ${CCGRAM_GROUP_ID:-}
     volumes:
       - claude-config:/home/agent/.claude   # auth + settings persist across restarts
       - herdr-data:/home/agent/.herdr       # herdr session state
