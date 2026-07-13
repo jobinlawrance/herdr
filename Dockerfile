@@ -12,11 +12,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Claude Code — official Anthropic CLI, installed globally
 RUN npm install -g @anthropic-ai/claude-code
 
-# herdr
-# NOTE: this is a piped remote installer (curl | sh). Review the script at
-# https://herdr.dev/install.sh before building if you don't already trust it.
-# If the installer needs a non-default path, set it here.
-RUN curl -fsSL https://herdr.dev/install.sh | sh
+# herdr (v0.7.x). Piped remote installer — review https://herdr.dev/install.sh
+# if you don't already trust it. Force a system path so the non-root `agent`
+# user can run it, and verify so a silent curl failure fails the build.
+RUN curl -fsSL https://herdr.dev/install.sh | HERDR_INSTALL_DIR=/usr/local/bin sh \
+    && herdr --version
 
 # Run as non-root (Claude Code refuses --dangerously-skip-permissions as root,
 # and running interactive tooling as root is a bad default)
