@@ -58,4 +58,8 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
 # Telegram bridge is the main process (long-lived poller). Needs
 # TELEGRAM_BOT_TOKEN + ALLOWED_USERS in env (Coolify secrets) or it exits.
 # Attach a shell anytime:  docker exec -it herdr bash   (or `herdr`)
-CMD ["ccgram"]
+#
+# ccgram defaults to CCGRAM_MULTIPLEXER=herdr, which needs the headless herdr
+# server running first — otherwise ccgram crash-loops with "herdr server is not
+# running". Start the daemon, wait for its API socket, then exec ccgram as PID 1.
+CMD ["sh", "-lc", "herdr server >/tmp/herdr-server.log 2>&1 & until herdr status server >/dev/null 2>&1; do sleep 0.5; done; exec ccgram"]
